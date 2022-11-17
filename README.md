@@ -1,4 +1,4 @@
-# TBC Payment Gateway for Node.js
+# MAIB Payment Gateway for Node.js
 
 ## Table of Contents
 - [Installation](#installation)
