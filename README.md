@@ -29,7 +29,7 @@ const MAIB = require('nodejs-maib');
 ```
 Then, instantiate the class providing the cert file and passphrase:
 ```javascript
-const maib = new MAIB('cert_file', 'cert_passphrase', 'merchanthandler_endpoint');
+const maib = new MAIB('certificate_path', 'certificate_pass', 'merchanthandler_endpoint');
 ```
 Test certificate: 0149583.pem
 
