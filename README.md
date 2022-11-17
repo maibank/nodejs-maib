@@ -3,7 +3,6 @@
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
-- [License](#license)
 
 ## Installation
 Get started by installing the package:
@@ -17,21 +16,28 @@ npm install --save node-tbc-payment-gateway
 - [Commit DMS Transaction](#commit-dms-transaction)
 - [Transaction Status](#transaction-status)
 - [Reverse Transaction](#reverse-transaction)
-- [Refund Transaction](#refund-transaction)
 - [Close Day](#close-day)
 - [Card Registration](#card-registration)
 - [Regular Payments](#regular-payments)
-- [Regular Payment Authorization](#regular-payment-authorization)
+- [Delete Regular Payment](#delete-regular-payment)
 
 ### Setup
 First, require the package in your file:
 ```javascript
-const TBC = require('node-tbc-payment-gateway');
+const MAIB = require('node-tbc-payment-gateway');
 ```
 Then, instantiate the class providing the cert file and passphrase:
 ```javascript
-const tbc = new TBC('cert_file', 'cert_passphrase');
+const maib = new MAIB('cert_file', 'cert_passphrase', 'merchanthandler_endpoint');
 ```
+Test certificate: 0149583.pem
+
+Password: Za86DuC$
+
+Test MerchantHandler URL: https://maib.ecommerce.md:21440/ecomm/MerchantHandler
+
+Test ClientHandler URL: https://maib.ecommerce.md:21443/ecomm/ClientHandler
+
 You can now start working with the payment gateway.
 
 ### Create Transaction
@@ -107,20 +113,6 @@ console.log(result);
 */
 ```
 
-### Refund Transaction
-```javascript
-const result = await tbc.refundTransaction('TRANSACTION_ID_HERE');
-
-console.log(result);
-/*
-{
-  RESULT: '...',
-  RESULT_CODE: '...',
-  REFUND_TRANS_ID: '...',
-}
-*/
-```
-
 ### Close Day
 ```javascript
 const result = await tbc.closeDay();
@@ -180,27 +172,19 @@ console.log(result);
 */
 ```
 
-### Regular Payment Authorization
+### Delete Regular Payment 
 ```javascript
-const result = await tbc
-  .setCurrency(981)
-  .setClientIpAddress('127.0.0.1')
-  .setDescription('Regular Payment Test')
-  .setAmount(1)
-  .authorizeRegularPayment('CARD_ID');
+const deleterec = async function() {
+const result = await maib
+  .deleteRegularPayment('12345');
 
 console.log(result);
+}
+deleterec();
+
 /*
 {
-  TRANSACTION_ID: '...',
   RESULT: '...',
-  RESULT_CODE: '...',
-  RRN: '...',
-  APPROVAL_CODE: '...',
 }
 */
 ```
-
-## License
-
-[shota-mentesh/node-tbc-payment-gateway](https://github.com/shota-mentesh/node-tbc-payment-gateway) is licensed under a [ISC License](https://github.com/shota-mentesh/node-tbc-payment-gateway/blob/master/LICENSE).
