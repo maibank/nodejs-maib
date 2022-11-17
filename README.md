@@ -18,7 +18,7 @@ npm install --save nodejs-maib
 - [Transaction Status](#transaction-status)
 - [Reverse Transaction](#reverse-transaction)
 - [Close Day](#close-day)
-- [Card Registration](#card-registration)
+- [Card Registration (regular payments)](#card-registration)
 - [Regular Payments](#regular-payments)
 - [Delete Regular Payment](#delete-regular-payment)
 
@@ -59,6 +59,7 @@ const smstrans = async function() {
   .setCurrency(498)
   .setAmount(1)
   .createTransaction();
+  
 console.log(result);
  }
 smstrans();
@@ -84,6 +85,7 @@ const dmstrans = async function() {
   .setCurrency(498)
   .setAmount(1)
   .createTransaction(type = 'DMS');
+  
 console.log(result);
 }
 dmstrans();
@@ -107,6 +109,7 @@ const result = await maib
   .setCurrency(498)
   .setAmount(1)
   .commitTransaction('TRANSACTION_ID_HERE');
+  
 console.log(result);
 }
 commitdms();
@@ -126,6 +129,7 @@ commitdms();
 ```javascript
 const status = async function() {
 const result = await maib.getTransactionStatus('TRANSACTION_ID_HERE');
+
 console.log(result);
 }
 status();
@@ -148,7 +152,10 @@ status();
 ### Reverse Transaction
 ```javascript
 const revers = async function() {
-const result = await maib.reverseTransaction('TRANSACTION_ID_HERE');
+const result = await maib
+  .setAmount(1)
+  .reverseTransaction('TRANSACTION_ID_HERE');
+  
 console.log(result);
 }
 revers();
@@ -163,9 +170,13 @@ revers();
 
 ### Close Day
 ```javascript
-const result = await tbc.closeDay();
+const closeday = async function() {
+const result = await maib.closeDay();
 
 console.log(result);
+}
+closeday();
+
 /*
 {
   RESULT: '...',
@@ -184,31 +195,39 @@ console.log(result);
 
 ### Card Registration
 ```javascript
-const result = await tbc
-  .setCurrency(981)
+const cardregist = async function() {
+const result = await maib
+  .setCurrency(498)
   .setClientIpAddress('127.0.0.1')
   .setDescription('Card Registration Test')
   .registerCard('CARD_ID');
-
+  
 console.log(result);
+}
+cardregist();
+
 /*
 {
   TRANSACTION_ID: '...',
 }
 */
 ```
-If you would like to make DMS transactions with registered cards, use `registerCard('CARD_ID', true)`.
+To enter card details redirect transaction ID to ClientHandler URL.
 
 ### Regular Payments
 ```javascript
-const result = await tbc
-  .setCurrency(981)
+const regularpayment = async function() {
+const result = await maib
+  .setCurrency(498)
   .setClientIpAddress('127.0.0.1')
   .setDescription('Regular Payment Test')
   .setAmount(1)
   .makeRegularPayment('CARD_ID');
-
+  
 console.log(result);
+}
+regularpayment();
+
 /*
 {
   TRANSACTION_ID: '...',
