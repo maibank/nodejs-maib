@@ -12,7 +12,8 @@ npm install --save nodejs-maib
 
 ## Usage
 - [Setup](#setup)
-- [Create Transaction (SMS/DMS)](#create-transaction)
+- [Create SMS Transaction](#create-sms-transaction)
+- [Create DMS Transaction](#create-dms-transaction)
 - [Commit DMS Transaction](#commit-dms-transaction)
 - [Transaction Status](#transaction-status)
 - [Reverse Transaction](#reverse-transaction)
@@ -47,34 +48,69 @@ openssl pkcs12 -in certificate.pfx -out certificate.pem -nodes
 
 You can now start working with the payment gateway.
 
-### Create Transaction
+### Create SMS Transaction
 ```javascript
-const result = await tbc
+
+const smstrans = async function() {
+  const result = await maib
   .setDescription('Test Transaction')
   .setClientIpAddress('127.0.0.1')
-  .setLanguage('GE')
-  .setCurrency(981) // Georgian Lari
+  .setLanguage('ro')
+  .setCurrency(498)
   .setAmount(1)
   .createTransaction();
-
 console.log(result);
+ }
+smstrans();
+
 /*
 {
   TRANSACTION_ID: 'TRANSACTION_ID_HERE'
 }
 */
 ```
+To enter card details redirect transaction ID to ClientHandler URL. Ex:
+```
+https://maib.ecommerce.md:21443/ecomm/ClientHandler?trans_id=rEsfhyIk8s9ypxkcS9fjo3C8FqA=
+```
+### Create DMS Transaction
+```javascript
+
+const dmstrans = async function() {
+  const result = await maib
+  .setDescription('Test Transaction')
+  .setClientIpAddress('127.0.0.1')
+  .setLanguage('ro')
+  .setCurrency(498)
+  .setAmount(1)
+  .createTransaction(type = 'DMS');
+console.log(result);
+}
+dmstrans();
+
+/*
+{
+  TRANSACTION_ID: 'TRANSACTION_ID_HERE'
+}
+*/
+
+To enter card details redirect transaction ID to ClientHandler URL.
+
+```
 
 ### Commit DMS Transaction
 ```javascript
-const result = await tbc
+const commitdms = async function() {
+const result = await maib
   .setDescription('Test Transaction')
   .setClientIpAddress('127.0.0.1')
-  .setCurrency(981) // Georgian Lari
+  .setCurrency(498)
   .setAmount(1)
   .commitTransaction('TRANSACTION_ID_HERE');
-
 console.log(result);
+}
+commitdms();
+
 /*
 {
   RESULT: '...',
@@ -85,13 +121,15 @@ console.log(result);
 }
 */
 ```
-If transaction has been created with registered card, use `commitTransaction('TRANSACTION_ID_HERE', true)`.
 
 ### Transaction Status
 ```javascript
-const result = await tbc.getTransactionStatus('TRANSACTION_ID_HERE');
-
+const status = async function() {
+const result = await maib.getTransactionStatus('TRANSACTION_ID_HERE');
 console.log(result);
+}
+status();
+
 /*
 {
   RESULT: '...',
@@ -109,9 +147,12 @@ console.log(result);
 
 ### Reverse Transaction
 ```javascript
-const result = await tbc.reverseTransaction('TRANSACTION_ID_HERE');
-
+const revers = async function() {
+const result = await maib.reverseTransaction('TRANSACTION_ID_HERE');
 console.log(result);
+}
+revers();
+
 /*
 {
   RESULT: '...',
