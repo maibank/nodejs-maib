@@ -7,7 +7,7 @@
 ## Installation
 Get started by installing the package:
 ```shell script
-npm install --save node-tbc-payment-gateway
+npm install --save nodejs-maib
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm install --save node-tbc-payment-gateway
 ### Setup
 First, require the package in your file:
 ```javascript
-const MAIB = require('node-tbc-payment-gateway');
+const MAIB = require('nodejs-maib');
 ```
 Then, instantiate the class providing the cert file and passphrase:
 ```javascript
@@ -37,6 +37,13 @@ Password: Za86DuC$
 Test MerchantHandler URL: https://maib.ecommerce.md:21440/ecomm/MerchantHandler
 
 Test ClientHandler URL: https://maib.ecommerce.md:21443/ecomm/ClientHandler
+
+Use openssl to convert certificate in .pem format from .pfx and password provided by bank:
+
+  ````
+openssl pkcs12 -in certificate.pfx -out certificate.pem -nodes
+  ````
+
 
 You can now start working with the payment gateway.
 
