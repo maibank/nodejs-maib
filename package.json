@@ -1,0 +1,24 @@
+{
+  "name": "node-tbc-payment-gateway",
+  "version": "1.2.1",
+  "description": "TBC credit card payments gateway",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shota Menteshashvili <shota@mentesh.dev> (https://mentesh.dev)",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "lodash": "^4.17.20"
+  },
+  "keywords": [
+    "tbc",
+    "ufc",
+    "payments"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shota-mentesh/node-tbc-payment-gateway"
+  }
+}
