@@ -95,10 +95,8 @@ dmstrans();
   TRANSACTION_ID: 'TRANSACTION_ID_HERE'
 }
 */
-
-To enter card details redirect transaction ID to ClientHandler URL.
-
 ```
+To enter card details redirect transaction ID to ClientHandler URL.
 
 ### Commit DMS Transaction
 ```javascript
@@ -243,7 +241,7 @@ regularpayment();
 ```javascript
 const deleterec = async function() {
 const result = await maib
-  .deleteRegularPayment('12345');
+  .deleteRegularPayment('CARD_ID');
 
 console.log(result);
 }
