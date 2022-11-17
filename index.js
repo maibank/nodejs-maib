@@ -1,32 +1,17 @@
 const https = require('https');
 const axios = require('axios');
 const fs    = require('fs');
-const _     = require('lodash');
+const _ = require('lodash');
 
-class TBC {
-  _certFile = null;
-  _certPass = null;
 
-  _merchantHandlerEndpoint = 'https://ecommerce.ufc.ge:18443/ecomm2/MerchantHandler';
-  _clientHandlerEndpoint   = 'https://ecommerce.ufc.ge/ecomm2/ClientHandler';
-
-  _amount          = 0;
-  _currency        = 981;
-  _clientIpAddress = '';
-  _description     = '';
-  _language        = 'GE';
-  _account         = null;
-
-  constructor(cert, pass) {
+class MAIB {
+  
+  constructor(cert, pass, merchantHandlerEndpoint) {
     this._certFile = cert;
     this._certPass = pass;
+    this._merchantHandlerEndpoint = merchantHandlerEndpoint;
   }
 
-  get accounts() {
-    return {
-      ERTGULI: '80|0000'
-    };
-  }
 
   _request(payload) {
     const query = Object.keys(payload)
@@ -86,11 +71,6 @@ class TBC {
     return this;
   }
 
-  setAccount(account) {
-    this._account = account;
-    return this;
-  }
-
   createTransaction(type = 'SMS') {
     const payload = {
       'command': type === 'DMS' ? 'a' : 'v',
@@ -101,10 +81,6 @@ class TBC {
       'language': this._language,
       'msg_type': type,
     };
-
-    if (this._account) {
-      payload.account = this._account;
-    }
 
     return this._request(payload);
   }
@@ -118,7 +94,7 @@ class TBC {
     return this._request(payload);
   }
 
-  commitTransaction(transactionId, dms = false) {
+  commitTransaction(transactionId) {
     const payload = {
       'command': 't',
       'trans_id': transactionId,
@@ -129,18 +105,10 @@ class TBC {
       'language': this._language,
     }
 
-    if (dms) {
-      payload.template_type = 'DMS';
-    }
-
-    if (this._account) {
-      payload.account = this._account;
-    }
-
     return this._request(payload);
   }
 
-  registerCard(cardId, dms = false) {
+  registerCard(cardId) {
     const payload = {
       'command': 'p',
       'currency': this._currency,
@@ -153,30 +121,12 @@ class TBC {
       'msg_type': 'AUTH',
     }
 
-    if (dms) {
-      payload.template_type = 'DMS';
-    }
-
-    if (this._account) {
-      payload.account = this._account;
-    }
-
     return this._request(payload);
   }
 
   reverseTransaction(transactionId) {
     const payload = {
       'command': 'r',
-      'trans_id': transactionId,
-      'amount': this._amount,
-    }
-
-    return this._request(payload);
-  }
-
-  refundTransaction(transactionId) {
-    const payload = {
-      'command': 'k',
       'trans_id': transactionId,
       'amount': this._amount,
     }
@@ -202,30 +152,17 @@ class TBC {
       'biller_client_id': cardId,
     }
 
-    if (this._account) {
-      payload.account = this._account;
-    }
-
     return this._request(payload);
   }
 
-  authorizeRegularPayment(cardId) {
+  deleteRegularPayment(cardId) {
     const payload = {
-      'command': 'f',
-      'amount': this._amount,
-      'currency': this._currency,
-      'client_ip_addr': this._clientIpAddress,
-      'description': this._description,
-      'template_type': 'DMS',
+      'command': 'x',
       'biller_client_id': cardId,
     };
-
-    if (this._account) {
-      payload.account = this._account;
-    }
 
     return this._request(payload);
   }
 }
 
-module.exports = TBC;
+module.exports = MAIB;
