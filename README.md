@@ -124,6 +124,8 @@ commitdms();
 ```
 
 ### Transaction Status
+
+Check transaction status on Callback page.
 ```javascript
 const status = async function() {
 const result = await maib.getTransactionStatus('TRANSACTION_ID_HERE');
