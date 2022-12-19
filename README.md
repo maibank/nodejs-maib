@@ -39,7 +39,7 @@ Test MerchantHandler URL: https://maib.ecommerce.md:21440/ecomm/MerchantHandler
 
 Test ClientHandler URL: https://maib.ecommerce.md:21443/ecomm/ClientHandler
 
-Use openssl to convert certificate in .pem format from .pfx and password provided by bank:
+Use openssl to convert certificate in *.pem* (pkcs12) format from *.pfx* and password provided by bank:
 
   ````
 openssl pkcs12 -in certificate.pfx -out certificate.pem -nodes
